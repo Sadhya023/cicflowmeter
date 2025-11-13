@@ -76,10 +76,10 @@ echo "🌐 Starting Telnet and FTP services..."
 service openbsd-inetd start 2>/dev/null || true
 service vsftpd start 2>/dev/null || true
 
-echo "🚦 Running CICFlowMeter..."
-source .venv/bin/activate
-if [ -z "$logurl" ]; then
-    cicflowmeter -i "$interface" -f "$filetype"
-else
-    cicflowmeter -i "$interface" -f "$filetype" -u "$logurl"
-fi
+#echo "🚦 Running CICFlowMeter..."
+#source .venv/bin/activate
+#if [ -z "$logurl" ]; then
+ #   cicflowmeter -i "$interface" -f "$filetype"
+#else
+ #   cicflowmeter -i "$interface" -f "$filetype" -u "$logurl"
+#fi
