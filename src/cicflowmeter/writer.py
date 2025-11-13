@@ -1,4 +1,7 @@
 import csv
+import json
+import logging
+from decimal import Decimal
 from typing import Protocol
 
 import requests
@@ -31,13 +34,28 @@ class HttpWriter(OutputWriter):
     def __init__(self, output_url) -> None:
         self.url = output_url
         self.session = requests.Session()
+        self.logger = logging.getLogger(__name__)
+
+    def _convert_decimals(self, obj):
+        """Convert Decimal objects to float for JSON serialization"""
+        if isinstance(obj, dict):
+            return {key: self._convert_decimals(value) for key, value in obj.items()}
+        elif isinstance(obj, list):
+            return [self._convert_decimals(item) for item in obj]
+        elif isinstance(obj, Decimal):
+            return float(obj)
+        else:
+            return obj
 
     def write(self, data):
         try:
-            resp = self.session.post(self.url, json=data, timeout=5)
+            # Convert Decimal objects to float for JSON serialization
+            clean_data = self._convert_decimals(data)
+            resp = self.session.post(self.url, json=clean_data, timeout=5)
             resp.raise_for_status()  # raise if not 2xx
-        except Exception:
-            self.logger.exception("HTTPWriter failed posting flow")
+            self.logger.debug(f"Successfully posted flow data to {self.url}")
+        except Exception as e:
+            self.logger.error(f"HTTPWriter failed posting flow to {self.url}: {e}")
 
     def __del__(self):
         self.session.close()
