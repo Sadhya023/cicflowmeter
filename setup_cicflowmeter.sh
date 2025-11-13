@@ -65,12 +65,12 @@ deactivate
 # ---------------------------------------------------------
 # 🚦 Running CICFlowMeter
 # ---------------------------------------------------------
-echo "✅ CICFlowMeter environment ready!"
-echo "------------------------------------"
-read -p "Enter input interface (e.g. eth0, wlan0): " interface
-read -p "Enter output file type (csv or flow): " filetype
-read -p "Enter URL to send logs (or leave blank): " logurl
-echo "------------------------------------"
+#echo "✅ CICFlowMeter environment ready!"
+#echo "------------------------------------"
+#read -p "Enter input interface (e.g. eth0, wlan0): " interface
+#read -p "Enter output file type (csv or flow): " filetype
+#read -p "Enter URL to send logs (or leave blank): " logurl
+#echo "------------------------------------"
 
 echo "🌐 Starting Telnet and FTP services..."
 service openbsd-inetd start 2>/dev/null || true
